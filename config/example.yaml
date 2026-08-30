@@ -1,0 +1,17 @@
+bot:
+  token: your_telegram_bot_token_here
+  admin_id: your_telegram_id_here
+api:
+  base_uri: https://api.shkitis.ru/v1
+  updates_uri: ws://api.shkitis.ru/v1/updates
+database:
+  host: 127.0.0.1
+  port: 5432
+  name: kitisbot_db
+  user: kitisbot
+  pass: your_database_password_here
+log:
+  level: info
+  filename: logs/latest.log
+  max_size_bytes: 1048576
+  max_files: 3

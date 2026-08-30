@@ -1,0 +1,23 @@
+{
+  "name": "re-kitis-bot",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@grammyjs/runner": "^2.0.3",
+    "@types/logfmt": "^1.2.6",
+    "@types/pg": "^8.23.1",
+    "config": "^5.0.1",
+    "grammy": "^1.45.1",
+    "logfmt": "^1.4.0",
+    "pg": "^8.23.0",
+    "winston": "^3.19.0",
+    "yaml": "^2.9.0"
+  }
+}
