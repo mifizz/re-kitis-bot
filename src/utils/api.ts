@@ -54,7 +54,7 @@ export type ScheduleLesson = {
 }
 
 const API_BASE_URI = config.get<string>("api.base_uri")
-const API_FORCE_SCHEDULE = config.get<boolean>("api.force")
+// const API_FORCE_SCHEDULE = config.get<boolean>("api.force")
 
 async function fetchData<T>(uri: string): Promise<T> {
   const r = await fetch(API_BASE_URI + uri)

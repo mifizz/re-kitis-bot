@@ -6,5 +6,5 @@ import { logger } from "../utils/logger";
 import type { BotDatabase } from "../utils/database";
 
 export async function handleStart(c: Context, db: BotDatabase) {
-  await c.reply("Привет, я новый ReКитисбот, тыкай кнопки внизу", {reply_markup: KEYBOARD.start})
+  await c.reply(TEXT.reply.start, {reply_markup: KEYBOARD.start, parse_mode: "HTML"})
 }
