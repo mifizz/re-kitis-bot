@@ -107,7 +107,7 @@ export class BotDatabase {
     await this.sql.query(`INSERT INTO preferences(telegram_id) VALUES ($1)`, [telegram_id])
   }
   public async updateUser(telegram_id: number | string, username?: string) {
-    await this.sql.query(`UPDATE users SET id = $1, username = $2`, [telegram_id, username])
+    await this.sql.query(`UPDATE users SET username = $2 WHERE id = $1`, [telegram_id, username])
   }
 
   public async getUser(telegram_id: number | string) {
