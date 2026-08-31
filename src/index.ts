@@ -21,6 +21,41 @@ const db = await new BotDatabase().init()
 
 initWebsocket(bot, db)
 
+/// ADMIN
+
+const RE_ADMIN_SEND = /\!send ((?:all|ex|in|test))(?: ([^\n]*))?\n(^(?:(?!\|\|\|).)+)/ms
+bot.hears(RE_ADMIN_SEND, async (c: Context) => {
+  const cid = c.chatId!
+  if (cid != config.get<number>("bot.admin_id") || !c.match) return
+
+  const [, mode, ids_s, text] = c.message?.text?.match(RE_ADMIN_SEND) ?? []
+  if (!mode || !text) return
+  const ids = ids_s?.split(" ") ?? []
+
+  await handleAdminSend(bot, db, text, mode.toLowerCase(), ids)
+})
+
+const RE_ADMIN_ERR = /!err (\d+)/
+bot.hears(RE_ADMIN_ERR, async (c: Context) => {
+  const cid = c.chatId!
+  if (cid != config.get<number>("bot.admin_id") || !c.match) return
+
+  const [, err_id] = c.message?.text?.match(RE_ADMIN_ERR) ?? []
+  if (!err_id) throw new Error("default error")
+
+  switch (err_id) {
+    case "1":
+      await bot.api.deleteMessage(cid, -1)
+      break
+    case "2":
+      const m = await bot.api.sendMessage(cid, "updated message will be the same as before")
+      await bot.api.editMessageText(cid, m.message_id, "updated message will be the same as before")
+      break
+    default:
+      throw new Error("default error")
+  }
+})
+
 /// BASE COMMANDS
 
 bot.command("start", async (c) => {
@@ -149,41 +184,6 @@ bot.callbackQuery(/^notifications:(\d*)/, async (c) => {
 
   await db.editNotificationMode(cid, parseInt(mode ?? "0"))
   await handleNotitificationsEdit(c, db)
-})
-
-/// ADMIN
-
-const RE_ADMIN_SEND = /\!send ((?:all|ex|in|test))(?: ([^\n]*))?\n(^(?:(?!\|\|\|).)+)/ms
-bot.hears(RE_ADMIN_SEND, async (c: Context) => {
-  const cid = c.chatId!
-  if (cid != config.get<number>("bot.admin_id") || !c.match) return
-
-  const [, mode, ids_s, text] = c.message?.text?.match(RE_ADMIN_SEND) ?? []
-  if (!mode || !text) return
-  const ids = ids_s?.split(" ") ?? []
-
-  await handleAdminSend(bot, db, text, mode.toLowerCase(), ids)
-})
-
-const RE_ADMIN_ERR = /!err (\d+)/
-bot.hears(RE_ADMIN_ERR, async (c: Context) => {
-  const cid = c.chatId!
-  if (cid != config.get<number>("bot.admin_id") || !c.match) return
-
-  const [, err_id] = c.message?.text?.match(RE_ADMIN_ERR) ?? []
-  if (!err_id) throw new Error("default error")
-
-  switch (err_id) {
-    case "1":
-      await bot.api.deleteMessage(cid, -1)
-      break
-    case "2":
-      const m = await bot.api.sendMessage(cid, "updated message will be the same as before")
-      await bot.api.editMessageText(cid, m.message_id, "updated message will be the same as before")
-      break
-    default:
-      throw new Error("default error")
-  }
 })
 
 bot.catch((err) => handleError(err, db))

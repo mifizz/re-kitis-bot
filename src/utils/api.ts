@@ -86,7 +86,7 @@ export async function initWebsocket(bot: Bot, db: BotDatabase) {
       need_restart = true
     })
     ws.addEventListener("error", (e: Event) => {
-      logger.error("Websocket error", { error: e })
+      logger.error("Websocket error", { error: JSON.stringify(e) })
       need_restart = true
     })
 
