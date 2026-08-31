@@ -4,7 +4,7 @@ import { logger } from "../utils/logger";
 import type { BotDatabase } from "../utils/database";
 
 export const TELEGRAM_ERRORS = {
-  MessageNotModified: "Bad Request: Message not modified",
+  MessageNotModified: "Bad Request: message is not modified",
   MessageCantBeEdited: "Bad Request: message can't be edited",
   BotBlocked: "Forbidden: bot was blocked by the user",
   UserDeactivated: "Forbidden: user is deactivated"
