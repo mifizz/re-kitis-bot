@@ -156,7 +156,7 @@ bot.callbackQuery(/^favs:((?:add|del)):(\w*):(\d*):(\d*)/, async (c) => {
   if (!prefs) return
   if (!prefs.favourite_sources)
     prefs.favourite_sources = action === "add" ? [{ source_id: parseInt(source_id ?? "0"), source_type }] : []
-  else if (action === "add")
+  else if (action === "add" && !prefs.favourite_sources.find((f) => f.source_id == parseInt(source_id ?? "0")))
     prefs.favourite_sources.push({ source_id: parseInt(source_id ?? "0"), source_type })
   else if (action === "del")
     prefs.favourite_sources = prefs.favourite_sources.filter((f) => f.source_id != parseInt(source_id ?? "0"))

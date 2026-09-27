@@ -4,6 +4,7 @@ bot:
 api:
   base_uri: https://api.shkitis.ru/v1
   updates_uri: ws://api.shkitis.ru/v1/updates
+  force: true
 database:
   host: 127.0.0.1
   port: 5432
