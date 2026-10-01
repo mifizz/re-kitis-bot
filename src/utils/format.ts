@@ -10,8 +10,8 @@ const SEP = "--------------------------"
 function formatLesson(source_type: string, lesson: ScheduleLesson) {
   const fmt_map = {
     group: "<b>{number})</b> <i>{bells}</i> - {name} - <i>{room}</i>",
-    lecturer: "<b>{number})</b> <i>{bells}</i> - {name} - <i>{room}</i>",
-    room: "<b>{number})</b> <i>{bells}</i> - {name} - <i>{lecturer}</i>"
+    lecturer: "<b>{number})</b> <i>{bells}</i> - {name} - {group} - <i>{room}</i>",
+    room: "<b>{number})</b> <i>{bells}</i> - {name} - {group} - <i>{lecturer}</i>"
   }
   const pattern = fmt_map[source_type as keyof typeof fmt_map]
   return pattern.replace(/\{(\w+)\}/g, (_, key) => String((key == "number" && lesson[key as keyof typeof lesson] == -1) ? "- " : (lesson[key as keyof typeof lesson] ?? key)))

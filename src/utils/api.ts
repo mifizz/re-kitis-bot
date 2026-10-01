@@ -52,13 +52,6 @@ export type ScheduleLesson = {
   lecturer: string;
   room: string;
 }
-type SourceFull = {
-  type: string;
-  name: string;
-  id: number;
-  category: string;
-  status: string;
-}
 
 const API_BASE_URI = config.get<string>("api.base_uri")
 const API_FORCE_SCHEDULE = config.get<boolean>("api.force")
@@ -78,14 +71,14 @@ export async function getSources(source_type: string) {
 }
 async function getSourceByID(source_id: number) {
   const sources_all = await getSourcesAll();
-  let found_source: SourceFull | undefined = undefined;
-  Object.entries(sources_all).find(([type, sources]) => {
-    const found = Object.entries(sources).find(([_, s]) => s.id === source_id);
-    if (found)
-      found_source = { type, name: found[0], id: found[1].id, category: found[1].category, status: found[1].status };
-    return true;
-  })
-  return found_source as SourceFull | undefined;
+  for (const [type, sources] of Object.entries(sources_all)) {
+    for (const [name, data] of Object.entries(sources)) {
+      if (data.id !== source_id) continue;
+      return { type, name, id: data.id, category: data.category, status: data.status };
+    }
+  }
+  logger.warn(`Source with id ${source_id} not found`);
+  return undefined;
 }
 export async function getSchedule(source_id: number) {
   // use database if 'api.force' is false
